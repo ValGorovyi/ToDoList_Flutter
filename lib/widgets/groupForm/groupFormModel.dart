@@ -6,7 +6,13 @@ class GroupFormModel {
   var GroupName = '';
   void SaveGroupName(BuildContext context) async {
     if (GroupName.isEmpty) return;
+    if (!Hive.isAdapterRegistered(1)) {
+      Hive.registerAdapter(GroupEntityAdapter());
+    }
     final box = await Hive.openBox<GroupEntity>('group_entity_box');
+    final group = GroupEntity(name: GroupName);
+    box.add(group); //await?
+    Navigator.of(context).pop();
   }
 }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list_fl/widgets/groupForm/groupFormWidget.dart';
+import 'package:todo_list_fl/widgets/groupsW/groupsModel.dart';
 import 'package:todo_list_fl/widgets/listItem.dart';
 
 class TDListUpperClass extends StatelessWidget {
@@ -15,11 +16,21 @@ class TDListUpperClass extends StatelessWidget {
   }
 }
 
-class TDListUpperWidget extends StatelessWidget {
-  void showForm(BuildContext context) {
-    Navigator.of(context).pushNamed('/list/addGroup');
-  }
+class TDListUpperWidget extends StatefulWidget {
+  @override
+  State<TDListUpperWidget> createState() => _TDListUpperWidgetState();
+}
 
+class _TDListUpperWidgetState extends State<TDListUpperWidget> {
+  final model = GroupsModel();
+
+  @override
+  Widget build(BuildContext context) {
+    return GroupsInherit(model: model, child: _TDListUpperWidgetBody());
+  }
+}
+
+class _TDListUpperWidgetBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +41,7 @@ class TDListUpperWidget extends StatelessWidget {
       ),
       body: GroupsList(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => showForm(context),
+        onPressed: () => GroupsInherit.read(context)?.model.showForm(context),
         child: Icon(Icons.add_box_rounded),
       ),
     );
@@ -40,11 +51,13 @@ class TDListUpperWidget extends StatelessWidget {
 class GroupsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final GroupsItemsCound =
+        GroupsInherit.watch(context)?.model.groups.length ?? 0;
     return ListView.separated(
-      itemBuilder: (BuildContext context, int index) => ListItem(),
+      itemBuilder: (BuildContext context, int index) => ListItem(index: index),
       separatorBuilder: (BuildContext context, int index) =>
           SizedBox(height: 10),
-      itemCount: 30,
+      itemCount: GroupsItemsCound,
     );
   }
 }
