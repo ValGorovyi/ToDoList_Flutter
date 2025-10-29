@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:todo_list_fl/widgets/groupForm/groupFormWidget.dart';
 import 'package:todo_list_fl/widgets/groupsW/groupsModel.dart';
 import 'package:todo_list_fl/widgets/listItem.dart';
+import 'package:todo_list_fl/widgets/taskForm/taskFormWidget.dart';
+import 'package:todo_list_fl/widgets/tasks/tasksWidget.dart';
 
 class TDListUpperClass extends StatelessWidget {
   @override
@@ -10,6 +12,8 @@ class TDListUpperClass extends StatelessWidget {
       routes: {
         '/list': (conrext) => TDListUpperWidget(),
         '/list/addGroup': (context) => AddGroupFormWidget(),
+        '/list/tasks': (context) => TasksWidget(),
+        '/list/tasks/addTask': (context) => TaskFormWidget(),
       },
       initialRoute: '/list',
     );

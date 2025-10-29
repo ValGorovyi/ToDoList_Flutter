@@ -35,7 +35,10 @@ class ListItem extends StatelessWidget {
 
       child: ColoredBox(
         color: Colors.white,
-        child: ListTile(title: Text(group!.name)),
+        child: ListTile(
+          title: Text(group!.name),
+          onTap: () => model?.showTasks(context, index),
+        ),
       ),
     );
   }

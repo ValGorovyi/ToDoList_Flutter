@@ -1,34 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'groupEntity.dart';
+part of 'taskEntity.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class GroupEntityAdapter extends TypeAdapter<GroupEntity> {
+class TaskEntityAdapter extends TypeAdapter<TaskEntity> {
   @override
-  final int typeId = 1;
+  final int typeId = 2;
 
   @override
-  GroupEntity read(BinaryReader reader) {
+  TaskEntity read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return GroupEntity(
-      name: fields[0] as String,
-    )..tasks = (fields[1] as HiveList?)?.castHiveList();
+    return TaskEntity(
+      isDone: fields[2] as bool,
+      name: fields[1] as String,
+    );
   }
 
   @override
-  void write(BinaryWriter writer, GroupEntity obj) {
+  void write(BinaryWriter writer, TaskEntity obj) {
     writer
       ..writeByte(2)
-      ..writeByte(0)
-      ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.tasks);
+      ..write(obj.name)
+      ..writeByte(2)
+      ..write(obj.isDone);
   }
 
   @override
@@ -37,7 +38,7 @@ class GroupEntityAdapter extends TypeAdapter<GroupEntity> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is GroupEntityAdapter &&
+      other is TaskEntityAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

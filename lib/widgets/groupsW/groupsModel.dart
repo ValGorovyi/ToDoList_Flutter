@@ -10,6 +10,15 @@ class GroupsModel extends ChangeNotifier {
     Navigator.of(context).pushNamed('/list/addGroup');
   }
 
+  void showTasks(BuildContext context, int indexGroup) async {
+    if (!Hive.isAdapterRegistered(1)) {
+      Hive.registerAdapter(GroupEntityAdapter());
+    }
+    final box = await Hive.openBox<GroupEntity>('group_entity_box');
+    final groupKey = box.keyAt(indexGroup);
+    Navigator.of(context).pushNamed('/list/tasks', arguments: groupKey);
+  }
+
   void deleteGroup(int index) async {
     if (!Hive.isAdapterRegistered(1)) {
       Hive.registerAdapter(GroupEntityAdapter());
