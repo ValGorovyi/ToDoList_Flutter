@@ -27,19 +27,24 @@ class TaskFormModel {
   }
 }
 
-class GroupFormInherit extends InheritedNotifier {
+class TaskFormInherit extends InheritedNotifier {
   final TaskFormModel model;
-  GroupFormInherit({Key? key, required Widget child, required this.model})
-    : super(child: child);
+  const TaskFormInherit({super.key, required super.child, required this.model});
 
-  static GroupFormInherit? watch(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<GroupFormInherit>();
+  static TaskFormInherit? watch(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<TaskFormInherit>();
   }
 
-  static GroupFormInherit? read(BuildContext context) {
+  static TaskFormInherit? read(BuildContext context) {
     final widget = context
-        .getElementForInheritedWidgetOfExactType<GroupFormInherit>()
+        .getElementForInheritedWidgetOfExactType<TaskFormInherit>()
         ?.widget;
-    return widget is GroupFormInherit ? widget : null;
+    return widget is TaskFormInherit ? widget : null;
+  }
+
+  @override
+  bool updateShouldNotify(covariant InheritedNotifier<Listenable> oldWidget) {
+    // TODO: implement updateShouldNotify
+    return false;
   }
 }

@@ -49,6 +49,8 @@ class _GroupFormBodyWidget extends StatelessWidget {
 }
 
 class GroupTextW extends StatelessWidget {
+  const GroupTextW({super.key});
+
   @override
   Widget build(BuildContext context) {
     final model = GroupFormInherit.read(context)?.model;

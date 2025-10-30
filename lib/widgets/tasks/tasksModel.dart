@@ -26,7 +26,7 @@ class TasksModel extends ChangeNotifier {
   }
 
   void showForm(BuildContext context) {
-    Navigator.of(context).pushNamed('/list/tasks/addTask');
+    Navigator.of(context).pushNamed('/list/tasks/addTask', arguments: groupKey);
   }
 }
 
