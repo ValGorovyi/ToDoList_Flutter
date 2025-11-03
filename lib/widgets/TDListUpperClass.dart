@@ -58,7 +58,8 @@ class GroupsList extends StatelessWidget {
     final GroupsItemsCound =
         GroupsInherit.watch(context)?.model.groups.length ?? 0;
     return ListView.separated(
-      itemBuilder: (BuildContext context, int index) => ListItem(index: index),
+      itemBuilder: (BuildContext context, int index) =>
+          ListGroupItem(index: index),
       separatorBuilder: (BuildContext context, int index) =>
           SizedBox(height: 10),
       itemCount: GroupsItemsCound,

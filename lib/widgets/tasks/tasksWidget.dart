@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo_list_fl/widgets/tasks/tasksModel.dart';
 
 class TasksWidget extends StatefulWidget {
@@ -36,10 +37,64 @@ class TasksWidgetBody extends StatelessWidget {
     final title = model?.group?.name ?? 'Task';
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: Center(),
+      body: TasksList(),
       floatingActionButton: FloatingActionButton(
         onPressed: () => model?.showForm(context),
         child: Icon(Icons.add_box_rounded),
+      ),
+    );
+  }
+}
+
+class TasksList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final tasksItemsCound =
+        TasksInherit.watch(context)?.model.tasks.length ?? 0;
+    return ListView.separated(
+      itemBuilder: (BuildContext context, int index) =>
+          ListTasksItem(index: index),
+      separatorBuilder: (BuildContext context, int index) =>
+          SizedBox(height: 10),
+      itemCount: tasksItemsCound,
+    );
+  }
+}
+
+class ListTasksItem extends StatelessWidget {
+  final index;
+  ListTasksItem({super.key, required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    final model = TasksInherit.read(context)?.model;
+    final task = model?.tasks[index];
+    return Slidable(
+      key: const ValueKey(0),
+      startActionPane: ActionPane(
+        motion: const ScrollMotion(),
+        dismissible: DismissiblePane(
+          onDismissed: () {
+            model?.deleteTask(index);
+          },
+        ),
+
+        children: [
+          SlidableAction(
+            onPressed: (BuildContext c) {
+              model?.deleteTask(index);
+            },
+            backgroundColor: Color(0xFFFE4A49),
+            foregroundColor: Colors.white,
+            icon: Icons.delete,
+            label: 'Delete',
+          ),
+        ],
+      ),
+
+      child: ColoredBox(
+        color: Colors.white,
+        child: ListTile(title: Text(task!.name), onTap: () {}),
       ),
     );
   }

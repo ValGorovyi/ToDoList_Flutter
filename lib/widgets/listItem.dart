@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo_list_fl/widgets/groupsW/groupsModel.dart';
 
-class ListItem extends StatelessWidget {
+class ListGroupItem extends StatelessWidget {
   final index;
-  ListItem({super.key, required this.index});
+  ListGroupItem({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,7 @@ import 'package:todo_list_fl/entity/taskEntity.dart';
 part 'groupEntity.g.dart';
 
 @HiveType(typeId: 1)
-class GroupEntity {
+class GroupEntity extends HiveObject {
   @HiveField(0)
   String name;
   @HiveField(1)
@@ -13,5 +13,6 @@ class GroupEntity {
   void addTask(Box<TaskEntity> box, TaskEntity task) {
     tasks ??= HiveList(box);
     tasks?.add(task);
+    save();
   }
 }
