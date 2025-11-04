@@ -17,7 +17,7 @@ class TasksModel extends ChangeNotifier {
   }
 
   void _readBoxTFromHive() {
-    print(_group);
+    /// eshe net _group
     _tasks = _group?.tasks ?? <TaskEntity>[];
     notifyListeners();
   }
@@ -33,6 +33,14 @@ class TasksModel extends ChangeNotifier {
     box.listenable(keys: <dynamic>[groupKey]).addListener(_readBoxTFromHive);
   }
 
+  void doneTogle(int groupIndex) async {
+    final task = group?.tasks?[groupIndex];
+    final curretDone = task?.isDone ?? false;
+    task?.isDone = !curretDone;
+    task?.save();
+    notifyListeners();
+  }
+
   void _setup() async {
     if (!Hive.isAdapterRegistered(1)) {
       Hive.registerAdapter(GroupEntityAdapter());
@@ -40,8 +48,8 @@ class TasksModel extends ChangeNotifier {
     if (!Hive.isAdapterRegistered(2)) {
       Hive.registerAdapter(TaskEntityAdapter());
     }
-    Hive.openBox<TaskEntity>('task_entity_box');
     _groupBox = Hive.openBox<GroupEntity>('group_entity_box');
+    await Hive.openBox<TaskEntity>('task_entity_box');
     _loadGroup();
     _setupListenTask();
   }

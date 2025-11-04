@@ -67,22 +67,78 @@ class ListTasksItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = TasksInherit.read(context)?.model;
-    final task = model?.tasks[index];
-    return Slidable(
-      key: const ValueKey(0),
+    final model = TasksInherit.read(context)!.model;
+    final task = model.tasks[index];
+    final doneIcon = task.isDone ? Icons.done : Icons.close;
+    final taskTaxtDecoration = task.isDone ? TextDecoration.lineThrough : null;
+
+    return
+    // Slidable(
+    //   key: ValueKey(1), // важно, чтобы ключ был уникальным
+    //   startActionPane: ActionPane(
+    //     motion: const ScrollMotion(),
+    //     dismissible: DismissiblePane(
+    //       onDismissed: () {
+    //         // 🔹 Удаляем задачу и обновляем UI
+    //         model?.deleteTask(index);
+    //       },
+    //     ),
+    //     children: [
+    //       SlidableAction(
+    //         onPressed: (context) => model?.deleteTask(index),
+    //         backgroundColor: Colors.red,
+    //         foregroundColor: Colors.white,
+    //         icon: Icons.delete,
+    //         label: 'Delete',
+    //       ),
+    //     ],
+    //   ),
+    //   child: ListTile(title: Text(task!.name)),
+    // );
+    // Slidable(
+    //   key: ValueKey(index),
+    //   // Свайп СЛЕВА НАПРАВО — это startActionPane
+    //   startActionPane: ActionPane(
+    //     motion: const ScrollMotion(),
+    //     // Этот блок делает свайп "удаляемым"
+    //     dismissible: DismissiblePane(
+    //       onDismissed: () {
+    //         model?.deleteTask(index);
+    //       },
+    //     ),
+    //     children: [
+    //       SlidableAction(
+    //         onPressed: (context) {
+    //           model?.deleteTask(index);
+    //         },
+    //         backgroundColor: const Color(0xFFFE4A49),
+    //         foregroundColor: Colors.white,
+    //         icon: Icons.delete,
+    //         label: 'Delete',
+    //       ),
+    //     ],
+    //   ),
+    //   // Если хочешь, можешь добавить endActionPane — свайп справа налево
+    //   // endActionPane: ActionPane(...),
+    //   child: ColoredBox(
+    //     color: Colors.white,
+    //     child: ListTile(title: Text(task!.name), onTap: () {}),
+    //   ),
+    // );
+    Slidable(
+      key: ValueKey(0),
       startActionPane: ActionPane(
         motion: const ScrollMotion(),
+
         dismissible: DismissiblePane(
           onDismissed: () {
-            model?.deleteTask(index);
+            model.deleteTask(index);
           },
         ),
-
         children: [
           SlidableAction(
             onPressed: (BuildContext c) {
-              model?.deleteTask(index);
+              model.deleteTask(index);
             },
             backgroundColor: Color(0xFFFE4A49),
             foregroundColor: Colors.white,
@@ -94,7 +150,14 @@ class ListTasksItem extends StatelessWidget {
 
       child: ColoredBox(
         color: Colors.white,
-        child: ListTile(title: Text(task!.name), onTap: () {}),
+        child: ListTile(
+          title: Text(
+            task.name,
+            style: TextStyle(decoration: taskTaxtDecoration),
+          ),
+          trailing: Icon(doneIcon),
+          onTap: () => model.doneTogle(index),
+        ),
       ),
     );
   }

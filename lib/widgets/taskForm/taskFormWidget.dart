@@ -75,8 +75,6 @@ class TaskTextW extends StatelessWidget {
       ),
       autofocus: true,
       onChanged: (value) {
-        print('vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
-        print(value);
         model?.taskText = value;
       },
       onEditingComplete: () => model?.SaveTaskText(context),
