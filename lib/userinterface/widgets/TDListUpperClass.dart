@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list_fl/widgets/groupForm/groupFormWidget.dart';
-import 'package:todo_list_fl/widgets/groupsW/groupsModel.dart';
-import 'package:todo_list_fl/widgets/listItem.dart';
-import 'package:todo_list_fl/widgets/taskForm/taskFormWidget.dart';
-import 'package:todo_list_fl/widgets/tasks/tasksWidget.dart';
+import 'package:todo_list_fl/userinterface/mainNavigation.dart';
+import 'package:todo_list_fl/userinterface/widgets/groupsW/groupsModel.dart';
+import 'package:todo_list_fl/userinterface/widgets/listItem.dart';
 
 class TDListUpperClass extends StatelessWidget {
+  static final mainNavigation = MainNavigation();
+
+  const TDListUpperClass({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      routes: {
-        '/list': (conrext) => TDListUpperWidget(),
-        '/list/addGroup': (context) => AddGroupFormWidget(),
-        '/list/tasks': (context) => TasksWidget(),
-        '/list/tasks/addTask': (context) => TaskFormWidget(),
-      },
-      initialRoute: '/list',
+      routes: mainNavigation.routes,
+      initialRoute: mainNavigation.initialRoute,
+      onGenerateRoute: mainNavigation.onGenerateMyRoute,
     );
   }
 }
 
 class TDListUpperWidget extends StatefulWidget {
+  const TDListUpperWidget({super.key});
+
   @override
   State<TDListUpperWidget> createState() => _TDListUpperWidgetState();
 }
@@ -53,6 +52,8 @@ class _TDListUpperWidgetBody extends StatelessWidget {
 }
 
 class GroupsList extends StatelessWidget {
+  const GroupsList({super.key});
+
   @override
   Widget build(BuildContext context) {
     final GroupsItemsCound =

@@ -1,27 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list_fl/widgets/taskForm/taskFormModel.dart';
+import 'package:todo_list_fl/userinterface/widgets/taskForm/taskFormModel.dart';
 
 class TaskFormWidget extends StatefulWidget {
+  int groupKey;
+
+  TaskFormWidget({super.key, required this.groupKey});
   @override
   State<TaskFormWidget> createState() => _TaskFormWidgetState();
 }
 
 class _TaskFormWidgetState extends State<TaskFormWidget> {
-  TaskFormModel? _model;
-
+  late final TaskFormModel _model;
   @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    if (_model == null) {
-      final groupKey = ModalRoute.of(context)?.settings.arguments as int;
-      _model = TaskFormModel(groupKey: groupKey);
-    }
+  void initState() {
+    super.initState();
+    _model = TaskFormModel(groupKey: widget.groupKey);
   }
+
+  // @override
+  // void didChangeDependencies() {
+  //   // TODO: implement didChangeDependencies
+  //   super.didChangeDependencies();
+  //   if (_model == null) {
+  //     final groupKey = ModalRoute.of(context)?.settings.arguments as int;
+  //     _model = TaskFormModel(groupKey: groupKey);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return TaskFormInherit(child: _TextFormBodyWidget(), model: _model!);
+    return TaskFormInherit(model: _model, child: _TextFormBodyWidget());
   }
 }
 

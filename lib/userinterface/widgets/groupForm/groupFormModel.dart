@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:todo_list_fl/entity/groupEntity.dart';
+import 'package:todo_list_fl/userinterface/entity/groupEntity.dart';
 
 class GroupFormModel {
   var GroupName = '';
@@ -18,8 +18,11 @@ class GroupFormModel {
 
 class GroupFormInherit extends InheritedNotifier {
   final GroupFormModel model;
-  GroupFormInherit({Key? key, required Widget child, required this.model})
-    : super(child: child);
+  const GroupFormInherit({
+    super.key,
+    required super.child,
+    required this.model,
+  });
 
   static GroupFormInherit? watch(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<GroupFormInherit>();

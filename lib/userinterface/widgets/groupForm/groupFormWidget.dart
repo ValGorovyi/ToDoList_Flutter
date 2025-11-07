@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list_fl/widgets/groupForm/groupFormModel.dart';
+import 'package:todo_list_fl/userinterface/widgets/groupForm/groupFormModel.dart';
 
 class AddGroupFormWidget extends StatefulWidget {
+  const AddGroupFormWidget({super.key});
+
   @override
   State<AddGroupFormWidget> createState() => _AddGroupFormWidgetState();
 }

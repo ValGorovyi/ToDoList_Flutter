@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:todo_list_fl/entity/groupEntity.dart';
-import 'package:todo_list_fl/entity/taskEntity.dart';
+import 'package:todo_list_fl/userinterface/entity/groupEntity.dart';
+import 'package:todo_list_fl/userinterface/entity/taskEntity.dart';
 
 class TaskFormModel {
   var taskText = '';
@@ -44,7 +44,6 @@ class TaskFormInherit extends InheritedNotifier {
 
   @override
   bool updateShouldNotify(covariant InheritedNotifier<Listenable> oldWidget) {
-    // TODO: implement updateShouldNotify
     return false;
   }
 }

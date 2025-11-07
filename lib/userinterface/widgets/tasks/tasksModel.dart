@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:todo_list_fl/entity/groupEntity.dart';
-import 'package:todo_list_fl/entity/taskEntity.dart';
+import 'package:todo_list_fl/userinterface/entity/groupEntity.dart';
+import 'package:todo_list_fl/userinterface/entity/taskEntity.dart';
+import 'package:todo_list_fl/userinterface/mainNavigation.dart';
 
 class TasksModel extends ChangeNotifier {
   int groupKey;
@@ -61,15 +62,17 @@ class TasksModel extends ChangeNotifier {
   }
 
   void showForm(BuildContext context) {
-    Navigator.of(context).pushNamed('/list/tasks/addTask', arguments: groupKey);
+    Navigator.of(
+      context,
+    ).pushNamed(MainNavigationNames.taskForm, arguments: groupKey);
   }
 }
 
 class TasksInherit extends InheritedNotifier {
   TasksModel model;
 
-  TasksInherit({required this.model, required Widget child, Key? key})
-    : super(child: child, notifier: model, key: key);
+  TasksInherit({required this.model, required super.child, super.key})
+    : super(notifier: model);
 
   static TasksInherit? watch(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<TasksInherit>();
