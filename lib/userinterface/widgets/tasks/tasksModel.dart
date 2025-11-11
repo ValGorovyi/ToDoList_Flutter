@@ -1,70 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:todo_list_fl/userinterface/entity/groupEntity.dart';
+import 'package:todo_list_fl/userinterface/boxManager.dart';
 import 'package:todo_list_fl/userinterface/entity/taskEntity.dart';
 import 'package:todo_list_fl/userinterface/mainNavigation.dart';
+import 'package:todo_list_fl/userinterface/widgets/tasks/tasksWidget.dart';
 
 class TasksModel extends ChangeNotifier {
-  int groupKey;
-  GroupEntity? _group;
-  GroupEntity? get group => _group;
+  TasksWConfiguration configuration;
   var _tasks = <TaskEntity>[];
   List<TaskEntity> get tasks => _tasks.toList();
-  late final Future<Box<GroupEntity>> _groupBox;
+  late final Future<Box<TaskEntity>> _taskBox;
 
-  TasksModel({required this.groupKey}) {
-    _setup();
+  TasksModel({required this.configuration}) {
+    _setupStarted();
   }
 
-  void _readBoxTFromHive() {
+  Future<void> _readBoxTFromHive() async {
     /// eshe net _group
-    _tasks = _group?.tasks ?? <TaskEntity>[];
+    _tasks = (await _taskBox).values.toList();
     notifyListeners();
   }
 
-  void deleteTask(int index) async {
-    await _group?.tasks?.deleteFromHive(index);
-    await _group?.save();
+  Future<void> deleteTask(int taskIndex) async {
+    final box = await _taskBox;
+    await box.deleteAt(taskIndex);
+    // await _group?.tasks?.deleteFromHive(index);
+    // await _group?.save();
   }
 
-  void _setupListenTask() async {
-    final box = await _groupBox;
-    _readBoxTFromHive();
-    box.listenable(keys: <dynamic>[groupKey]).addListener(_readBoxTFromHive);
+  Future<void> doneTogle(int taskIndex) async {
+    final task = (await _taskBox).getAt(taskIndex);
+    task?.isDone = !task.isDone;
   }
 
-  void doneTogle(int groupIndex) async {
-    final task = group?.tasks?[groupIndex];
-    final curretDone = task?.isDone ?? false;
-    task?.isDone = !curretDone;
-    task?.save();
-    notifyListeners();
-  }
-
-  void _setup() async {
-    if (!Hive.isAdapterRegistered(1)) {
-      Hive.registerAdapter(GroupEntityAdapter());
-    }
-    if (!Hive.isAdapterRegistered(2)) {
-      Hive.registerAdapter(TaskEntityAdapter());
-    }
-    _groupBox = Hive.openBox<GroupEntity>('group_entity_box');
-    await Hive.openBox<TaskEntity>('task_entity_box');
-    _loadGroup();
-    _setupListenTask();
-  }
-
-  void _loadGroup() async {
-    final box = await _groupBox;
-    _group = box.get(groupKey);
-    notifyListeners();
+  void _setupStarted() async {
+    _taskBox = BoxManager.instance.openTasksBox(configuration.groupKey);
+    await _readBoxTFromHive();
+    (await _taskBox).listenable().addListener(() {
+      _readBoxTFromHive();
+    });
   }
 
   void showForm(BuildContext context) {
-    Navigator.of(
-      context,
-    ).pushNamed(MainNavigationNames.taskForm, arguments: groupKey);
+    Navigator.of(context).pushNamed(
+      MainNavigationNames.taskForm,
+      arguments: configuration.groupKey,
+    );
   }
 }
 

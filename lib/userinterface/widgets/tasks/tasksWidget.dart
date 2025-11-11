@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo_list_fl/userinterface/widgets/tasks/tasksModel.dart';
 
+class TasksWConfiguration {
+  final int groupKey;
+  final String title;
+
+  TasksWConfiguration(this.groupKey, this.title);
+}
+
 class TasksWidget extends StatefulWidget {
-  int groupKey;
-  TasksWidget({super.key, required this.groupKey});
+  TasksWConfiguration configuration;
+  TasksWidget({super.key, required this.configuration});
 
   @override
   State<TasksWidget> createState() => _TasksWidgetState();
@@ -17,7 +24,7 @@ class _TasksWidgetState extends State<TasksWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _model = TasksModel(groupKey: widget.groupKey);
+    _model = TasksModel(configuration: widget.configuration);
   }
   // @override
   // void didChangeDependencies() {
@@ -44,7 +51,7 @@ class TasksWidgetBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = TasksInherit.watch(context)?.model;
-    final title = model?.group?.name ?? 'Task';
+    final title = model?.configuration.title ?? 'Task';
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: TasksList(),

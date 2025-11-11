@@ -4,15 +4,9 @@ part 'groupEntity.g.dart';
 
 @HiveType(typeId: 1)
 class GroupEntity extends HiveObject {
+  // lAST USED HIVE FIELD ID (1)
+
   @HiveField(0)
   String name;
-  @HiveField(1)
-  HiveList<TaskEntity>? tasks;
   GroupEntity({required this.name});
-
-  void addTask(Box<TaskEntity> box, TaskEntity task) {
-    tasks ??= HiveList(box);
-    tasks?.add(task);
-    save();
-  }
 }

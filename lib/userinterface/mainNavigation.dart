@@ -22,10 +22,10 @@ class MainNavigation {
   Route<dynamic>? onGenerateMyRoute(RouteSettings settings) {
     switch (settings.name) {
       case MainNavigationNames.tasks:
-        final groupKey = settings.arguments as int;
+        final configuration = settings.arguments as TasksWConfiguration;
         return MaterialPageRoute(
           builder: (context) {
-            return TasksWidget(groupKey: groupKey);
+            return TasksWidget(configuration: configuration);
           },
         );
       case MainNavigationNames.taskForm:
