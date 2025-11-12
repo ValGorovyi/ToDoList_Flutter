@@ -1,5 +1,4 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:todo_list_fl/userinterface/entity/taskEntity.dart';
 part 'groupEntity.g.dart';
 
 @HiveType(typeId: 1)

@@ -22,7 +22,6 @@ class _TasksWidgetState extends State<TasksWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _model = TasksModel(configuration: widget.configuration);
   }
@@ -44,6 +43,12 @@ class _TasksWidgetState extends State<TasksWidget> {
     } else {
       return CircularProgressIndicator();
     }
+  }
+
+  @override
+  void dispose() async {
+    await _model.dispose();
+    super.dispose();
   }
 }
 

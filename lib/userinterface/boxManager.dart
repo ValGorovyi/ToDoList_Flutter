@@ -5,7 +5,7 @@ import 'package:todo_list_fl/userinterface/entity/taskEntity.dart';
 abstract class _boxNames {
   static const groupsBoxName = 'group_entity_box';
   static const groupsBoxId = 1;
-  static const tasksBoxName = 'task_entity_box';
+  // static const tasksBoxName = 'task_entity_box';
   static const tasksBoxId = 2;
 }
 
@@ -13,7 +13,7 @@ class BoxManager {
   static final BoxManager instance = BoxManager._();
   BoxManager._();
 
-  String boxNameCreator(int groupKey) => 'group_entity_box_$groupKey';
+  String boxNameCreator(int groupKey) => '$_boxNames.groupBoxName_$groupKey';
 
   Future<Box<G>> _openBox<G>(
     int boxId,

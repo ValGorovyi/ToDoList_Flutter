@@ -25,11 +25,17 @@ class TDListUpperWidget extends StatefulWidget {
 }
 
 class _TDListUpperWidgetState extends State<TDListUpperWidget> {
-  final model = GroupsModel();
+  final _model = GroupsModel();
 
   @override
   Widget build(BuildContext context) {
-    return GroupsInherit(model: model, child: _TDListUpperWidgetBody());
+    return GroupsInherit(model: _model, child: _TDListUpperWidgetBody());
+  }
+
+  @override
+  void dispose() async {
+    await _model.dispose();
+    super.dispose();
   }
 }
 

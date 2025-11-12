@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list_fl/userinterface/boxManager.dart';
 import 'package:todo_list_fl/userinterface/entity/groupEntity.dart';
@@ -9,6 +10,8 @@ class GroupsModel extends ChangeNotifier {
   late final Future<Box<GroupEntity>> _groupBox;
   var _groups = <GroupEntity>[];
   List<GroupEntity> get groups => _groups.toList();
+  ValueListenable<Object>? _listenableBox;
+
   void showForm(BuildContext context) {
     Navigator.of(context).pushNamed(MainNavigationNames.groupForm);
   }
@@ -25,11 +28,9 @@ class GroupsModel extends ChangeNotifier {
 
   void deleteGroup(int index) async {
     final box = await _groupBox;
-    final groupKey = (await _groupBox).keyAt(index) as int;
+    final groupKey = box.keyAt(index) as int;
     final taskBoxName = BoxManager.instance.boxNameCreator(groupKey);
     Hive.deleteBoxFromDisk(taskBoxName);
-
-    // box.deleteAt(index);
   }
 
   GroupsModel() {
@@ -43,9 +44,17 @@ class GroupsModel extends ChangeNotifier {
   void _setupStarted() async {
     _groupBox = BoxManager.instance.openGroupBox();
     await _readBoxFromHive();
-    (await _groupBox).listenable().addListener(() {
+    _listenableBox = (await _groupBox).listenable();
+    _listenableBox?.addListener(() {
       _readBoxFromHive();
     });
+  }
+
+  @override
+  Future<void> dispose() async {
+    _listenableBox?.removeListener(_readBoxFromHive);
+    await BoxManager.instance.closeBox(await _groupBox);
+    super.dispose();
   }
 }
 

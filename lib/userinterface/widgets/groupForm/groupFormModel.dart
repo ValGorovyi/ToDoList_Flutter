@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:todo_list_fl/userinterface/boxManager.dart';
 import 'package:todo_list_fl/userinterface/entity/groupEntity.dart';
 
 class GroupFormModel {
   var GroupName = '';
   void SaveGroupName(BuildContext context) async {
     if (GroupName.isEmpty) return;
-    if (!Hive.isAdapterRegistered(1)) {
-      Hive.registerAdapter(GroupEntityAdapter());
-    }
-    final box = await Hive.openBox<GroupEntity>('group_entity_box');
+    final box = await BoxManager.instance.openGroupBox();
+
     final group = GroupEntity(name: GroupName);
-    box.add(group); //await?
+    await box.add(group); //await?
     Navigator.of(context).pop();
   }
 }
