@@ -10,6 +10,7 @@ abstract class _boxNames {
 }
 
 class BoxManager {
+  final Map<String, int> _boxCount = <String, int>{};
   static final BoxManager instance = BoxManager._();
   BoxManager._();
 
@@ -20,6 +21,12 @@ class BoxManager {
     String boxName,
     TypeAdapter<G> adapter,
   ) async {
+    if (Hive.isBoxOpen(boxName)) {
+      final cound = _boxCount[boxName] ?? 1;
+      _boxCount[boxName] = cound + 1;
+      return Hive.box(boxName);
+    }
+    _boxCount[boxName] = 1;
     if (!Hive.isAdapterRegistered(boxId)) {
       Hive.registerAdapter(adapter);
     }
@@ -43,6 +50,14 @@ class BoxManager {
   }
 
   Future<void> closeBox<G>(Box box) async {
+    if (!box.isOpen) {
+      _boxCount.remove(box.name);
+      return;
+    }
+    int cound = _boxCount[box.name] ?? 1;
+    cound = cound - 1;
+    if (cound > 0) return;
+    _boxCount.remove(box.name);
     await box.compact();
     await box.close();
   }

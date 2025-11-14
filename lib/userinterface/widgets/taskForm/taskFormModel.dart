@@ -5,13 +5,14 @@ import 'package:todo_list_fl/userinterface/entity/taskEntity.dart';
 class TaskFormModel {
   var taskText = '';
   int groupKey;
+
   TaskFormModel({required this.groupKey});
   void SaveTaskText(BuildContext context) async {
     if (taskText.isEmpty) return;
-    final task = TaskEntity(isDone: false, name: taskText);
     final box = await BoxManager.instance.openTasksBox(groupKey);
-    box.add(task);
-
+    final task = TaskEntity(isDone: false, name: taskText);
+    await box.add(task);
+    await BoxManager.instance.closeBox(box);
     Navigator.of(context).pop();
   }
 }
