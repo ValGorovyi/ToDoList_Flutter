@@ -14,7 +14,8 @@ class BoxManager {
   static final BoxManager instance = BoxManager._();
   BoxManager._();
 
-  String boxNameCreator(int groupKey) => '$_boxNames.groupBoxName_$groupKey';
+  String boxNameCreator(int groupKey) =>
+      '$_boxNames.groupboxname_$groupKey'.toLowerCase();
 
   Future<Box<G>> _openBox<G>(
     int boxId,
@@ -55,7 +56,7 @@ class BoxManager {
       return;
     }
     int cound = _boxCount[box.name] ?? 1;
-    cound = cound - 1;
+    _boxCount[box.name] = cound - 1;
     if (cound > 0) return;
     _boxCount.remove(box.name);
     await box.compact();

@@ -11,15 +11,16 @@ class ListGroupItem extends StatelessWidget {
     final model = GroupsInherit.read(context)?.model;
     final group = model?.groups[index];
     return Slidable(
-      key: const ValueKey(0),
+      key: ValueKey(UniqueKey()),
       startActionPane: ActionPane(
         motion: const ScrollMotion(),
+
         dismissible: DismissiblePane(
+          key: key,
           onDismissed: () {
             model?.deleteGroup(index);
           },
         ),
-
         children: [
           SlidableAction(
             onPressed: (BuildContext c) {

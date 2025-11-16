@@ -31,6 +31,8 @@ class GroupsModel extends ChangeNotifier {
     final groupKey = box.keyAt(index) as int;
     final taskBoxName = BoxManager.instance.boxNameCreator(groupKey);
     Hive.deleteBoxFromDisk(taskBoxName);
+    await box.deleteAt(index);
+    ////&&&???
   }
 
   GroupsModel() {

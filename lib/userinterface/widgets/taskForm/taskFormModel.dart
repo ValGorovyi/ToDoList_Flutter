@@ -2,15 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:todo_list_fl/userinterface/boxManager.dart';
 import 'package:todo_list_fl/userinterface/entity/taskEntity.dart';
 
-class TaskFormModel {
-  var taskText = '';
+class TaskFormModel extends ChangeNotifier {
+  var _taskText = '';
   int groupKey;
+  bool get isValid => _taskText.trim().isNotEmpty;
+  set taskText(String value) {
+    final taskEmpty = _taskText.trim().isEmpty;
+    _taskText = value;
+    if (value.trim().isEmpty != taskEmpty) {
+      notifyListeners();
+    }
+  }
 
   TaskFormModel({required this.groupKey});
   void SaveTaskText(BuildContext context) async {
-    if (taskText.isEmpty) return;
+    final taskTextTrim = _taskText.trim();
+    if (taskTextTrim.isEmpty) return;
     final box = await BoxManager.instance.openTasksBox(groupKey);
-    final task = TaskEntity(isDone: false, name: taskText);
+    final task = TaskEntity(isDone: false, name: _taskText);
     await box.add(task);
     await BoxManager.instance.closeBox(box);
     Navigator.of(context).pop();
@@ -19,7 +28,8 @@ class TaskFormModel {
 
 class TaskFormInherit extends InheritedNotifier {
   final TaskFormModel model;
-  const TaskFormInherit({super.key, required super.child, required this.model});
+  const TaskFormInherit({super.key, required super.child, required this.model})
+    : super(notifier: model);
 
   static TaskFormInherit? watch(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<TaskFormInherit>();

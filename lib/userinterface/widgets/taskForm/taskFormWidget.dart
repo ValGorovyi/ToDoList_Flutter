@@ -35,8 +35,13 @@ class _TaskFormWidgetState extends State<TaskFormWidget> {
 class _TextFormBodyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final model = TaskFormInherit.read(context)?.model;
-
+    final model = TaskFormInherit.watch(context)?.model;
+    final button = FloatingActionButton(
+      onPressed: () {
+        model?.SaveTaskText(context);
+      },
+      child: Icon(Icons.done),
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Task Text'),
@@ -55,12 +60,7 @@ class _TextFormBodyWidget extends StatelessWidget {
           child: TaskTextW(),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          model?.SaveTaskText(context);
-        },
-        child: Icon(Icons.done),
-      ),
+      floatingActionButton: model?.isValid == true ? button : null,
     );
   }
 }
@@ -70,7 +70,7 @@ class TaskTextW extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = TaskFormInherit.read(context)?.model;
+    final model = TaskFormInherit.watch(context)?.model;
     return TextField(
       maxLines: null,
       minLines: null,
