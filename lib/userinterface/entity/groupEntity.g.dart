@@ -16,7 +16,9 @@ class GroupEntityAdapter extends TypeAdapter<GroupEntity> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return GroupEntity(name: fields[0] as String);
+    return GroupEntity(
+      name: fields[0] as String,
+    );
   }
 
   @override
